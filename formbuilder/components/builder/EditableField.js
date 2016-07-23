@@ -3,7 +3,6 @@ import { Draggable, Droppable } from "react-drag-and-drop";
 import Form from "react-jsonschema-form";
 import SchemaField from "react-jsonschema-form/lib/components/fields/SchemaField";
 
-
 function pickKeys(source, target) {
   const result = {};
   for (let key in source) {
@@ -53,6 +52,7 @@ class FieldPropertiesEditor extends Component {
         <div className="panel-body">
           <Form
             schema={uiSchema.editSchema}
+            uiSchema={uiSchema.editUiSchema}
             formData={formData}
             onChange={this.onChange.bind(this)}
             onSubmit={onUpdate} />
@@ -96,11 +96,11 @@ function DraggableFieldContainer(props) {
 export default class EditableField extends Component {
   constructor(props) {
     super(props);
-    this.state = {edit: true, schema: props.schema};
+    this.state = {edit: true, schema: props.schema, isChild: false};
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({schema: nextProps.schema});
+    this.setState({schema: nextProps.schema, isChild: nextProps.isChild});
   }
 
   handleEdit(event) {
@@ -113,9 +113,12 @@ export default class EditableField extends Component {
   handleUpdate({formData}) {
     const updated = pickKeys(this.props.schema, formData);
     const schema = {...this.props.schema, ...updated};
+    console.log("STROPS CHECK const schema = {...this.props.schema, ...updated};", this.state, "props ", this.props)
     this.setState({edit: false, schema});
+    console.log("STROPS CHECK this.setState({edit: false, schema});", this.state, "props ", this.props)
     this.props.updateField(
       this.props.name, schema, formData.required, formData.title);
+    console.log("STROPS CHECK this.props.updateField(", this.state, "props ", this.props)
   }
 
   handleDelete(event) {
@@ -144,7 +147,8 @@ export default class EditableField extends Component {
   render() {
     const props = this.props;
 
-    if (this.state.edit) {
+    if (this.state.edit && props.schema.type === "object") {
+      console.log("is editing", props.name);
       return (
         <FieldPropertiesEditor
           {...props}
@@ -152,13 +156,24 @@ export default class EditableField extends Component {
           onUpdate={this.handleUpdate.bind(this)}
           onDelete={this.handleDelete.bind(this)} />
       );
+    }else if (this.state.edit && props.schema.type !== "object"){
+      return (
+        <SchemaField {...props} isChild={true} 
+          schema={this.state.schema}
+          idSchema={{id: props.name}} /> );
     }
 
     if (props.schema.type === "object") {
+      console.log("is object", props.name);
       if (!props.name) {
+      console.log("object with no name", props.name);
         // This can only be the root form object, returning a regular SchemaField.
-        return <SchemaField {...props} idSchema={{id: props.name}} />;
+        return <SchemaField {...props} isChild={true} idSchema={{id: props.name}} />;
       }
+    }
+    console.log("else", props.name);
+    if (props.uiSchema && props.uiSchema["ui:widget"]==="hidden"){
+      return null;
     }
 
     return (
@@ -170,7 +185,7 @@ export default class EditableField extends Component {
         onDelete={this.handleDelete.bind(this)}
         onDoubleClick={this.handleEdit.bind(this)}
         onDrop={this.handleDrop.bind(this)}>
-        <SchemaField {...props}
+        <SchemaField {...props} isChild={true} 
           schema={this.state.schema}
           idSchema={{id: props.name}} />
       </DraggableFieldContainer>
