@@ -4,6 +4,7 @@ import {
   FIELD_ADD,
   FIELD_REMOVE,
   FIELD_UPDATE,
+  FORM_UPDATE,
   FIELD_INSERT,
   FIELD_SWAP,
   FORM_RESET,
@@ -88,6 +89,30 @@ function updateField(state, name, schema, required, newLabel) {
   return {...state, error: null};
 }
 
+function updateForm(state, name, schema, formData) {
+  const existing = Object.keys(state.schema.properties);
+  const {qid, qrequired} = formData;
+  if (name !== qid && existing.indexOf(qid) !== -1) {
+    // Field name already exists, we can't update state
+    const error = `Duplicate field name "${qid}", operation aborted.`;
+    return {...state, error};
+  }
+  const requiredFields = state.schema.required || [];
+  state.schema.properties[name] = schema;
+  state.formData[name] = formData;
+  if (qrequired) {
+    // Ensure uniquely required field names
+    state.schema.required = unique(requiredFields.concat(name));
+  } else {
+    state.schema.required = requiredFields
+      .filter(requiredFieldName => name !== requiredFieldName);
+  }
+  if (qid !== name) {
+    return renameField(state, name, qid);
+  }
+  return {...state, error: null};
+}
+
 function renameField(state, name, newName) {
   const schema = clone(state.schema.properties[name]);
   const uiSchema = clone(state.uiSchema[name]);
@@ -152,8 +177,10 @@ export default function form(state = INITIAL_STATE, action) {
   case FIELD_REMOVE:
     return removeField(clone(state), action.name);
   case FIELD_UPDATE:
-    const {name, schema, required, newName} = action;
-    return updateField(clone(state), name, schema, required, newName);
+    // const {name, schema, required, newName} = action;
+    // return updateField(clone(state), action.name, action.schema, action.required, action.newName);
+  case FORM_UPDATE:
+      return updateForm(clone(state), action.name, action.schema, action.formData);
   case FIELD_INSERT:
     return insertField(clone(state), action.field, action.before);
   case FIELD_SWAP:

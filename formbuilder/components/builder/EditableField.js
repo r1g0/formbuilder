@@ -148,7 +148,7 @@ export default class EditableField extends Component {
     const props = this.props;
 
     if (this.state.edit && props.schema.type === "object") {
-      console.log("is editing", props.name);
+      console.log("RENDER is editing", props.name);
       return (
         <FieldPropertiesEditor
           {...props}
@@ -164,14 +164,14 @@ export default class EditableField extends Component {
     }
 
     if (props.schema.type === "object") {
-      console.log("is object", props.name);
+      console.log("RENDER is object", props.name);
       if (!props.name) {
-      console.log("object with no name", props.name);
+      console.log("RENDER object with no name", props.name);
         // This can only be the root form object, returning a regular SchemaField.
         return <SchemaField {...props} isChild={true} idSchema={{id: props.name}} />;
       }
     }
-    console.log("else", props.name);
+    console.log("RENDER else", props.name);
     if (props.uiSchema && props.uiSchema["ui:widget"]==="hidden"){
       return null;
     }
