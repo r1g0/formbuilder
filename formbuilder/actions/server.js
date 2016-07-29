@@ -76,6 +76,7 @@ export function publishForm(callback) {
     const form = getState().form;
     const schema = form.schema;
     const uiSchema = form.uiSchema;
+    const startrack = form.startrack;
 
     // Remove the "required" property if it's empty.
     if (schema.required.length === 0) {
@@ -106,7 +107,7 @@ export function publishForm(callback) {
       // The name of the collection is the user token so the user deals with
       // less different concepts.
       bucket.createCollection(userToken, {
-        data: {schema, uiSchema},
+        data: {schema, uiSchema, startrack},
         permissions: {
           "record:create": ["system.Authenticated"],
           "read": [userId]

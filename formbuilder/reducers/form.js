@@ -13,6 +13,8 @@ import {
 
 import {SCHEMA_RETRIEVAL_DONE} from "../actions/server";
 
+let static_id = 1;
+
 const INITIAL_STATE = {
   error: null,
   schema: {
@@ -24,6 +26,7 @@ const INITIAL_STATE = {
   uiSchema: {
     "ui:order": []
   },
+  startrack: {},
   formData: {},
   currentIndex: 0,
 };
@@ -48,6 +51,7 @@ function addField(state, field) {
   state.schema.properties[_slug] = {...field.jsonSchema, title: name};
   state.uiSchema[_slug] = field.uiSchema;
   state.uiSchema["ui:order"] = (state.uiSchema["ui:order"] || []).concat(_slug);
+  state.startrack[_slug] = {id:static_id++, type: field.qtype};
   return state;
 }
 
@@ -55,10 +59,14 @@ function removeField(state, name) {
   const requiredFields = state.schema.required || [];
   delete state.schema.properties[name];
   delete state.uiSchema[name];
+  delete state.startrack[name];
+
   state.uiSchema["ui:order"] = state.uiSchema["ui:order"].filter(
     (field) => field !== name);
+
   state.schema.required = requiredFields
     .filter(requiredFieldName => name !== requiredFieldName);
+
   if (state.schema.required.length === 0) {
     delete state.schema.required;
   }
@@ -66,7 +74,7 @@ function removeField(state, name) {
 }
 
 function updateField(state, name, schema, required, newLabel) {
-  const existing = Object.keys(state.schema.properties);
+  const existing = Object.keys("state.schema.properties state.schema.properties", state.schema.properties);
   const newName = slugify(newLabel);
   if (name !== newName && existing.indexOf(newName) !== -1) {
     // Field name already exists, we can't update state
@@ -95,6 +103,10 @@ function renameField(state, name, newName) {
   const required = state.schema.required;
   delete state.schema.properties[name];
   delete state.uiSchema[name];
+
+  state.startrack[newName] = state.startrack[name];
+  delete state.startrack[name];
+
   state.schema.properties[newName] = schema;
   state.schema.required = required.map(fieldName => {
     return fieldName === name ? newName : fieldName;
@@ -142,6 +154,7 @@ function updateFormDescription(state, {description}) {
 function setSchema(state, data) {
   state.schema = data.schema;
   state.uiSchema = data.uiSchema;
+  state.startrack = data.startrack;
   return {...state, error: null};
 }
 

@@ -7,7 +7,7 @@ export default {
   appURL: process.env.APP_URL || window.location.origin + window.location.pathname,
   fieldList: [
     {
-      id: "text",
+      id: "text0",
       icon: "text-color",
       label: "Short text",
       jsonSchema: {
@@ -26,6 +26,58 @@ export default {
           }
         },
       },
+      formData: {}
+    },
+    {
+      id: "text",
+      icon: "text-color",
+      label: "Text",
+      jsonSchema: {
+        type: "string",
+        title: "Edit me",
+        description: "",
+        default: ""
+      },
+      uiSchema: {
+        editSchema: {
+          type: "object",
+          properties: {
+            title: {type: "string", title: "Label"},
+            description: {type: "string", title: "Example value"},
+            required: {type: "boolean"},
+          }
+        },
+      },
+      qtype: "text",
+      formData: {}
+    },
+    {
+      id: "singlechoice",
+      icon: "list",
+      label: "Single Choice",
+      jsonSchema: {
+        type: "string",
+        title: "Edit me",
+        enum: ["option 1", "option 2", "option 3"],
+      },
+      uiSchema: {
+        "ui:widget": "radio",
+        editSchema: {
+          type: "object",
+          properties: {
+            title: {type: "string", title: "Label"},
+            required: {type: "boolean"},
+            enum: {
+              type: "array",
+              title: "Options",
+              items: {
+                type: "string"
+              }
+            }
+          }
+        },
+      },
+      qtype: "picker",
       formData: {}
     },
     {

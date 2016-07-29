@@ -9,8 +9,10 @@ export default function Form(props) {
   console.log("dragndropstatus", dragndropStatus);
   const {properties} = schema;
 
-  const onClick = (event) => {
+  const onClick = _ => {
+    console.log("on save form", props);
     props.publishForm(({collection, adminToken}) => {
+      console.log("publishForm", collection);
       props.history.pushState(null, `/builder/published/${adminToken}`);
     });
   };
