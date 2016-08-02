@@ -26,7 +26,7 @@ export default {
           }
         },
       },
-      qtype: "text",
+      qtype: "textbox",
       formData: {}
     },
     {
@@ -128,7 +128,7 @@ export default {
           }
         },
       },
-      qtype: "picture",
+      qtype: "takepicture",
       formData: {}
     },
     {
