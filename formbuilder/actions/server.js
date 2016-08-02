@@ -64,6 +64,10 @@ function initializeBucket() {
   });
 }
 
+function formatForStartrack(schema, startrackSchema){
+  
+}
+
 /**
  * Publishes a new form and give the credentials to the callback function
  * when it's done.

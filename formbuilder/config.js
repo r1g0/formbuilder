@@ -7,28 +7,6 @@ export default {
   appURL: process.env.APP_URL || window.location.origin + window.location.pathname,
   fieldList: [
     {
-      id: "text0",
-      icon: "text-color",
-      label: "Short text",
-      jsonSchema: {
-        type: "string",
-        title: "Edit me",
-        description: "",
-        default: ""
-      },
-      uiSchema: {
-        editSchema: {
-          type: "object",
-          properties: {
-            title: {type: "string", title: "Label"},
-            description: {type: "string", title: "Example value"},
-            required: {type: "boolean"},
-          }
-        },
-      },
-      formData: {}
-    },
-    {
       id: "text",
       icon: "text-color",
       label: "Text",
@@ -42,7 +20,7 @@ export default {
         editSchema: {
           type: "object",
           properties: {
-            title: {type: "string", title: "Label"},
+            title: {type: "string", title: "Pregunta:"},
             description: {type: "string", title: "Example value"},
             required: {type: "boolean"},
           }
@@ -65,7 +43,7 @@ export default {
         editSchema: {
           type: "object",
           properties: {
-            title: {type: "string", title: "Label"},
+            title: {type: "string", title: "Pregunta:"},
             required: {type: "boolean"},
             enum: {
               type: "array",
@@ -81,52 +59,9 @@ export default {
       formData: {}
     },
     {
-      id: "multilinetext",
-      icon: "align-left",
-      label: "Long text",
-      jsonSchema: {
-        type: "string",
-        title: "Edit me",
-        description: "",
-        default: ""
-      },
-      uiSchema: {
-        "ui:widget": "textarea",
-        editSchema: {
-          type: "object",
-          properties: {
-            title: {type: "string", title: "Label"},
-            description: {type: "string", title: "Example value"},
-            required: {type: "boolean"},
-          }
-        },
-      },
-      formData: {}
-    },
-    {
-      id: "checkbox",
-      icon: "check",
-      label: "Checkbox",
-      jsonSchema: {
-        type: "boolean",
-        title: "Edit me",
-        default: false,
-      },
-      uiSchema: {
-        editSchema: {
-          type: "object",
-          properties: {
-            title: {type: "string", title: "Label"},
-            required: {type: "boolean"},
-          }
-        },
-      },
-      formData: {}
-    },
-    {
-      id: "radiobuttonlist",
+      id: "multiplechoice",
       icon: "list",
-      label: "Choice list",
+      label: "Multiple Choice",
       jsonSchema: {
         type: "string",
         title: "Edit me",
@@ -137,7 +72,7 @@ export default {
         editSchema: {
           type: "object",
           properties: {
-            title: {type: "string", title: "Label"},
+            title: {type: "string", title: "Pregunta:"},
             required: {type: "boolean"},
             enum: {
               type: "array",
@@ -149,7 +84,106 @@ export default {
           }
         },
       },
+      qtype: "checkbox",
       formData: {}
     },
+    {
+      id: "qrtext",
+      icon: "qrcode",
+      label: "QR Scan",
+      jsonSchema: {
+        type: "string",
+        title: "Edit me",
+        description: "",
+        default: ""
+      },
+      uiSchema: {
+        editSchema: {
+          type: "object",
+          properties: {
+            title: {type: "string", title: "Pregunta:"},
+            required: {type: "boolean"}
+          }
+        },
+      },
+      qtype: "qr",
+      formData: {}
+    },
+    {
+      id: "picture",
+      icon: "picture",
+      label: "Picture",
+      jsonSchema: {
+        type: "string",
+        title: "Edit me",
+        description: "",
+        default: ""
+      },
+      uiSchema: {
+        editSchema: {
+          type: "object",
+          properties: {
+            title: {type: "string", title: "Pregunta:"},
+            required: {type: "boolean"}
+          }
+        },
+      },
+      qtype: "picture",
+      formData: {}
+    },
+    {
+      id: "gps",
+      icon: "map-marker",
+      label: "GPS",
+      jsonSchema: {
+        type: "string",
+        title: "Edit me",
+        description: "",
+        default: ""
+      },
+      uiSchema: {
+        editSchema: {
+          "title" : "GPS Location",
+          "description" : "A question for obtaining the mobile's GPS location.",
+          "type" : "object",
+          "properties" : {
+            "text": {"type": "string"},
+            "validation" : {
+              "title" : "GPS Validation Parameters",
+              "type" : "object",
+              "properties" : {
+                "max_error" : {
+                  "type" : "number",
+                  "title": "Maximum Accuracy Error",
+                  "description" : "Example: If the maximum error is 30, no location with accuracy above 30 would be valid."
+                },
+                "areas" : {
+                  "title": "Accepted Areas",
+                  "type" : "array",
+                  "items" : {
+                    "title" : "GPS Validation",
+                    "type" : "object",
+                    "properties" : {
+                      "northeast" : {
+                        "type" : "string",
+                        "pattern" : "-?\\d+\\.\\d*,\\s*-?\\d+\\.\\d*"
+                      },
+                      "southwest" : {
+                        "type" : "string",
+                        "pattern" : "-?\\d+\\.\\d*,\\s*-?\\d+\\.\\d*"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": ["text"],
+          "additionalProperties" : false
+        },
+      },
+      qtype: "gps",
+      formData: {}
+    }
   ],
 };
