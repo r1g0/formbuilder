@@ -1,6 +1,7 @@
 import KintoClient from "kinto-client";
 import btoa from "btoa";
 import uuid from "uuid";
+import S from "string";
 
 import {addNotification} from "./notifications";
 import {getUserToken} from "../utils";
@@ -64,6 +65,10 @@ function initializeBucket() {
   });
 }
 
+function slugify(string) {
+  return S(string).slugify().replace("-", "_").s;
+}
+
 // {
 //   "id":143,
 //   "text": "Escanear QR CODE",
@@ -74,11 +79,23 @@ function formatForStartrack(schema, uiSchema, STSchema){
   return uiSchema["ui:order"].map(
     questionId => {
       const STQuestion = STSchema[questionId];
+      const kintoQ = schema.properties[questionId];
       let questionSchema = {
         id: STQuestion.id,
-        text: schema.properties[questionId].title,
+        text: kintoQ.title,
         type: STQuestion.type,
         required: schema.required.indexOf(questionId)>=0
+      }
+      if (kintoQ.enum){
+        questionSchema.options = kintoQ.enum.map(
+          (display, index) => {
+            return {
+              index,
+              display: display,
+              value: slugify(display)
+            }
+          }
+        )
       }
       return questionSchema;
     }
