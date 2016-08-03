@@ -64,8 +64,25 @@ function initializeBucket() {
   });
 }
 
-function formatForStartrack(schema, startrackSchema){
-  
+// {
+//   "id":143,
+//   "text": "Escanear QR CODE",
+//   "type": "qr",
+//   "required": false
+// }
+function formatForStartrack(schema, uiSchema, STSchema){
+  return uiSchema["ui:order"].map(
+    questionId => {
+      const STQuestion = STSchema[questionId];
+      let questionSchema = {
+        id: STQuestion.id,
+        text: schema.properties[questionId].title,
+        type: STQuestion.type,
+        required: schema.required.indexOf(questionId)>=0
+      }
+      return questionSchema;
+    }
+  );
 }
 
 /**
@@ -82,6 +99,8 @@ export function publishForm(callback) {
     const uiSchema = form.uiSchema;
     const startrack = form.startrack;
 
+    const finalJSON = formatForStartrack(schema, uiSchema, startrack);
+    console.log("I would send the server this ", finalJSON);
     // Remove the "required" property if it's empty.
     if (schema.required.length === 0) {
       delete schema.required;
