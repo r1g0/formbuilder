@@ -82,6 +82,10 @@ function updateField(state, name, schema, required, newLabel) {
     return {...state, error};
   }
   const requiredFields = state.schema.required || [];
+  let thisQ = state.schema.properties[name];
+  if (thisQ.validation){
+    state.formData[name] = "Max error: " + thisQ.validation.max_error;
+  }
   state.schema.properties[name] = schema;
   if (required) {
     // Ensure uniquely required field names

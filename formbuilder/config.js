@@ -21,7 +21,6 @@ export default {
           type: "object",
           properties: {
             title: {type: "string", title: "Pregunta:"},
-            description: {type: "string", title: "Example value"},
             required: {type: "boolean"},
           }
         },
@@ -139,7 +138,8 @@ export default {
         type: "string",
         title: "Edit me",
         description: "",
-        default: ""
+        default: "",
+        validation: {}
       },
       uiSchema: {
         editSchema: {
@@ -147,7 +147,7 @@ export default {
           "description" : "A question for obtaining the mobile's GPS location.",
           "type" : "object",
           "properties" : {
-            "text": {"type": "string"},
+            "title": {"type": "string"},
             "validation" : {
               "title" : "GPS Validation Parameters",
               "type" : "object",
@@ -176,10 +176,10 @@ export default {
                   }
                 }
               }
-            }
+            },
+            required: {type: "boolean"}
           },
-          "required": ["text"],
-          "additionalProperties" : false
+          "required": ["title"]
         },
       },
       qtype: "gps",
