@@ -82,9 +82,11 @@ function updateField(state, name, schema, required, newLabel) {
     return {...state, error};
   }
   const requiredFields = state.schema.required || [];
-  let thisQ = state.schema.properties[name];
-  if (thisQ.validation){
-    state.formData[name] = "Max error: " + thisQ.validation.max_error;
+  if (schema.validation){
+    state.formData[name] = "Max error: " + schema.validation.max_error + "\nArea: " + schema.validation.areas.reduce(
+      (s, a, i, A) => s + `[${a.northeast}] => [${a.southwest}]` +(i<A.length-1 ? ", " : "")
+      , ""
+    );
   }
   state.schema.properties[name] = schema;
   if (required) {

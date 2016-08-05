@@ -142,6 +142,8 @@ export default {
         validation: {}
       },
       uiSchema: {
+        "ui:readonly": true,
+        "ui:widget": "textarea",
         editSchema: {
           "title" : "GPS Location",
           "description" : "A question for obtaining the mobile's GPS location.",
