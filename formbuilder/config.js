@@ -17,6 +17,7 @@ export default {
         default: ""
       },
       uiSchema: {
+        "ui:widget": "noinput",
         editSchema: {
           type: "object",
           properties: {
@@ -97,6 +98,7 @@ export default {
         default: ""
       },
       uiSchema: {
+        "ui:widget": "noinput",
         editSchema: {
           type: "object",
           properties: {
@@ -119,6 +121,7 @@ export default {
         default: ""
       },
       uiSchema: {
+        "ui:widget": "noinput",
         editSchema: {
           type: "object",
           properties: {

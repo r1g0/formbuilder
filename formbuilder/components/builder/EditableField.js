@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Draggable, Droppable } from "react-drag-and-drop";
 import Form from "react-jsonschema-form";
 import SchemaField from "react-jsonschema-form/lib/components/fields/SchemaField";
-
+import NoInputWidget from "../widgets/NoInputWidget.js";
 
 function pickKeys(source, target) {
   const result = {};
@@ -160,7 +160,8 @@ export default class EditableField extends Component {
         return <SchemaField {...props} idSchema={{id: props.name}} />;
       }
     }
-
+    let registry = this.props.registry;
+    registry.widgets = {...registry.widgets, noinput: NoInputWidget}
     return (
       <DraggableFieldContainer
         draggableType="moved-field"
@@ -172,7 +173,8 @@ export default class EditableField extends Component {
         onDrop={this.handleDrop.bind(this)}>
         <SchemaField {...props}
           schema={this.state.schema}
-          idSchema={{id: props.name}} />
+          idSchema={{id: props.name}}
+          registry={registry} />
       </DraggableFieldContainer>
     );
   }
