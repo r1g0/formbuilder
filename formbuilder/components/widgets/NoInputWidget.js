@@ -15,4 +15,4 @@ class NoInputWidget extends Component {
   }
 }
 
-export default NoInputField;
+export default NoInputWidget;
