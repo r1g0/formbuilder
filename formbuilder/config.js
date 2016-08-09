@@ -160,7 +160,8 @@ export default {
                 "max_error" : {
                   "type" : "number",
                   "title": "Maximum Accuracy Error",
-                  "description" : "Example: If the maximum error is 30, no location with accuracy above 30 would be valid."
+                  "description" : "Example: If the maximum error is 30, no location with accuracy above 30 would be valid.",
+                  "default" : "50"
                 },
                 "areas" : {
                   "title": "Accepted Areas",
@@ -180,7 +181,8 @@ export default {
                     }
                   }
                 }
-              }
+              },
+              "required": ["max_error"]
             },
             required: {type: "boolean"}
           },
