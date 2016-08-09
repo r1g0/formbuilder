@@ -68,7 +68,7 @@ export default {
         enum: ["option 1", "option 2", "option 3"],
       },
       uiSchema: {
-        "ui:widget": "radio",
+        "ui:widget": "multiplechoice",
         editSchema: {
           type: "object",
           properties: {

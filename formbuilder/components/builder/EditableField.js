@@ -3,6 +3,7 @@ import { Draggable, Droppable } from "react-drag-and-drop";
 import Form from "react-jsonschema-form";
 import SchemaField from "react-jsonschema-form/lib/components/fields/SchemaField";
 import NoInputWidget from "../widgets/NoInputWidget.js";
+import MultipleChoiceWidget from "../widgets/MultipleChoiceWidget.js";
 
 function pickKeys(source, target) {
   const result = {};
@@ -161,7 +162,10 @@ export default class EditableField extends Component {
       }
     }
     let registry = this.props.registry;
-    registry.widgets = {...registry.widgets, noinput: NoInputWidget}
+    registry.widgets = {...registry.widgets, 
+      noinput: NoInputWidget, 
+      multiplechoice: MultipleChoiceWidget
+    };
     return (
       <DraggableFieldContainer
         draggableType="moved-field"
