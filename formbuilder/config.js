@@ -184,7 +184,7 @@ export default {
             },
             required: {type: "boolean"}
           },
-          "required": ["title"]
+          "required": ["title", "validation"]
         },
       },
       qtype: "gps",

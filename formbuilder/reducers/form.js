@@ -52,6 +52,9 @@ function addField(state, field) {
   state.uiSchema[_slug] = field.uiSchema;
   state.uiSchema["ui:order"] = (state.uiSchema["ui:order"] || []).concat(_slug);
   state.startrack[_slug] = {id:static_id++, type: field.qtype};
+
+  const requiredFields = state.schema.required || [];
+  state.schema.required = unique(requiredFields.concat(_slug));
   return state;
 }
 
@@ -81,7 +84,6 @@ function updateField(state, name, schema, required, newLabel) {
     const error = `Duplicate field name "${newName}", operation aborted.`;
     return {...state, error};
   }
-  const requiredFields = state.schema.required || [];
   if (schema.validation){
     state.formData[name] = "Max error: " + schema.validation.max_error + "\nArea: " + schema.validation.areas.reduce(
       (s, a, i, A) => s + `[${a.northeast}] => [${a.southwest}]` +(i<A.length-1 ? ", " : "")
@@ -89,6 +91,7 @@ function updateField(state, name, schema, required, newLabel) {
     );
   }
   state.schema.properties[name] = schema;
+  const requiredFields = state.schema.required || [];
   if (required) {
     // Ensure uniquely required field names
     state.schema.required = unique(requiredFields.concat(name));
