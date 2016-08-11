@@ -4,6 +4,7 @@ import Form from "react-jsonschema-form";
 import SchemaField from "react-jsonschema-form/lib/components/fields/SchemaField";
 import NoInputWidget from "../widgets/NoInputWidget.js";
 import MultipleChoiceWidget from "../widgets/MultipleChoiceWidget.js";
+import GPSWidget from "../widgets/GPSWidget.js";
 
 function pickKeys(source, target) {
   const result = {};
@@ -43,7 +44,7 @@ class FieldPropertiesEditor extends Component {
     return (
       <div className="panel panel-default field-editor">
         <div className="panel-heading">
-          <strong>Edit {name}</strong>
+          <strong>{schema.index}. Edit {name}</strong>
           <button type="button" className="close-btn" onClick={onCancel} aria-label="Close">
             close <i className="glyphicon glyphicon-remove-sign"/>
           </button>
@@ -164,7 +165,8 @@ export default class EditableField extends Component {
     let registry = this.props.registry;
     registry.widgets = {...registry.widgets, 
       noinput: NoInputWidget, 
-      multiplechoice: MultipleChoiceWidget
+      multiplechoice: MultipleChoiceWidget,
+      gps: GPSWidget
     };
     return (
       <DraggableFieldContainer

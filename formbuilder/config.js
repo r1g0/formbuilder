@@ -14,7 +14,8 @@ export default {
         type: "string",
         title: "Edit me",
         description: "",
-        default: ""
+        default: "",
+        index: -1
       },
       uiSchema: {
         "ui:widget": "noinput",
@@ -146,7 +147,7 @@ export default {
       },
       uiSchema: {
         "ui:readonly": true,
-        "ui:widget": "textarea",
+        "ui:widget": "gps",
         editSchema: {
           "title" : "GPS Location",
           "description" : "A question for obtaining the mobile's GPS location.",
@@ -161,7 +162,7 @@ export default {
                   "type" : "number",
                   "title": "Maximum Accuracy Error",
                   "description" : "Example: If the maximum error is 30, no location with accuracy above 30 would be valid.",
-                  "default" : "50"
+                  "default" : 50
                 },
                 "areas" : {
                   "title": "Accepted Areas",
@@ -178,8 +179,10 @@ export default {
                         "type" : "string",
                         "pattern" : "-?\\d+\\.\\d*,\\s*-?\\d+\\.\\d*"
                       }
-                    }
-                  }
+                    },
+                    "required" : ["northeast", "southwest"]
+                  },
+                  "default" : []
                 }
               },
               "required": ["max_error"]
