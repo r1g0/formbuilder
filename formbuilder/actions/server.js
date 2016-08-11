@@ -90,12 +90,19 @@ function formatForStartrack(schema, uiSchema, STSchema){
         questionSchema.options = kintoQ.enum.map(
           (display, index) => {
             return {
-              index,
+              index: `${index}`,
               display: display,
               value: slugify(display)
             }
           }
         )
+      }else if (kintoQ.validation){
+        questionSchema.validation = {
+          max_error: kintoQ.validation.max_error,
+        };
+        if (kintoQ.validation.areas && kintoQ.validation.areas.length>0) {
+          questionSchema.validation.areas = kintoQ.validation.areas;
+        }
       }
       return questionSchema;
     }
