@@ -2,6 +2,7 @@ import KintoClient from "kinto-client";
 import btoa from "btoa";
 import uuid from "uuid";
 import S from "string";
+import superagent from 'superagent';
 
 import {addNotification} from "./notifications";
 import {getUserToken} from "../utils";
@@ -115,6 +116,25 @@ function formatForStartrack(schema, uiSchema, STSchema){
  *
  * In case a 403 is retrieved, initialisation of the bucket is triggered.
  **/
+
+ const postRequest = function(url, opts) {
+  return new Promise(function(fulfill, reject) {
+    superagent.post(url).send(opts).end(function(res) {
+      if (res.error) {
+        reject({
+          opts: opts,
+          error: res.error
+        });
+      } else {
+        fulfill({
+          opts: opts,
+          response: res
+        });
+      }
+    });
+  });
+};
+
 export function publishForm(callback) {
   const thunk =  (dispatch, getState, retry = true) => {
 
@@ -123,66 +143,28 @@ export function publishForm(callback) {
     const uiSchema = form.uiSchema;
     const startrack = form.startrack;
 
-    const finalJSON = formatForStartrack(schema, uiSchema, startrack);
-    console.log("I would send the server this ", finalJSON);
-    // Remove the "required" property if it's empty.
-    if (schema.required.length === 0) {
-      delete schema.required;
+    const resultJSON = formatForStartrack(schema, uiSchema, startrack);
+    console.log("I would send the server this ", resultJSON);
+    const body = {
+      name: schema.title,
+      notes: schema.description,
+      json: JSON.stringify(resultJSON),
+      place_question_id: "Generate Place From Question",
+      place_name_template: "Place Name Template, maxLength = 255;",
+      place_min_radius: "Place Min Radius (mts)",
+      place_group_id: "ID of the Place Group. REQUIRED!"
     }
 
-    dispatch({type: FORM_PUBLICATION_PENDING});
-    const adminToken = uuid.v4().replace(/-/g, "");
-    const userToken = getUserToken(adminToken);
-
-    const userClient = new KintoClient(
-      config.server.remote,
-      {headers: getAuthenticationHeaders(userToken)}
-    );
-    userClient.fetchServerInfo().then((serverInfo) => {
-      return serverInfo.user.id;
-    })
-    .catch(() => {
-      connectivityIssues(dispatch, "We are unable to connect to the server.");
-      dispatch({type: FORM_PUBLICATION_FAILED});
-    })
-    .then((userId) => {
-      // Create a new client, authenticated as the admin.
-      const bucket = new KintoClient(
-        config.server.remote,
-        {headers: getAuthenticationHeaders(adminToken)}
-      ).bucket(config.server.bucket);
-      // The name of the collection is the user token so the user deals with
-      // less different concepts.
-      bucket.createCollection(userToken, {
-        data: {schema, uiSchema, startrack},
-        permissions: {
-          "record:create": ["system.Authenticated"],
-          "read": [userId]
-        }
-      })
-      .then(({data}) => {
-        dispatch({
-          type: FORM_PUBLICATION_DONE,
-          collection: data.id,
-        });
-        if (callback) {
-          callback({
-            collection: data.id,
-            adminToken,
-          });
-        }
-      })
-      .catch((error) => {
-        // If the bucket doesn't exist, try to create it.
-        if (error.response.status === 403 && retry === true) {
-          return initializeBucket().then(() => {
-            thunk(dispatch, getState, false);
-          });
-        }
-        connectivityIssues(dispatch, "We were unable to publish your form.");
-        dispatch({type: FORM_PUBLICATION_FAILED});
+    superagent
+      .post('/ajax/surveys.php?cmd=create')
+      .type('form')
+      .send(body)
+      .set('X-API-Key', 'foobar')
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        // Calling the end function will send the request
       });
-    });
+    // postRequest("http://192.168.0.214:9000/test?query=genial", resultJSON);
   };
   return thunk;
 }
