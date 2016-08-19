@@ -2,7 +2,6 @@ import KintoClient from "kinto-client";
 import btoa from "btoa";
 import uuid from "uuid";
 import S from "string";
-import superagent from 'superagent';
 
 import {addNotification} from "./notifications";
 import {getUserToken} from "../utils";
@@ -25,6 +24,15 @@ export const RECORDS_RETRIEVAL_PENDING = "RECORDS_RETRIEVAL_PENDING";
 export const RECORDS_RETRIEVAL_DONE = "RECORDS_RETRIEVAL_DONE";
 
 const CONNECTIVITY_ISSUES = "This is usually due to an unresponsive server or some connectivity issues.";
+
+const defaultRequest = {
+  method: 'POST',
+  headers: {
+    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+  },
+  credentials: 'same-origin'
+};
+
 
 function connectivityIssues(dispatch, message) {
   const msg = message +  " " + CONNECTIVITY_ISSUES;
@@ -117,24 +125,6 @@ function formatForStartrack(schema, uiSchema, STSchema){
  * In case a 403 is retrieved, initialisation of the bucket is triggered.
  **/
 
- const postRequest = function(url, opts) {
-  return new Promise(function(fulfill, reject) {
-    superagent.post(url).send(opts).end(function(res) {
-      if (res.error) {
-        reject({
-          opts: opts,
-          error: res.error
-        });
-      } else {
-        fulfill({
-          opts: opts,
-          response: res
-        });
-      }
-    });
-  });
-};
-
 export function publishForm(callback) {
   const thunk =  (dispatch, getState, retry = true) => {
 
@@ -149,22 +139,24 @@ export function publishForm(callback) {
       name: schema.title,
       notes: schema.description,
       json: JSON.stringify(resultJSON),
-      place_question_id: "Generate Place From Question",
-      place_name_template: "Place Name Template, maxLength = 255;",
-      place_min_radius: "Place Min Radius (mts)",
-      place_group_id: "ID of the Place Group. REQUIRED!"
+      place_question_id: null,
+      place_name_template: null,
+      place_min_radius: null,
+      place_group_id: 1
     }
 
-    superagent
-      .post('/ajax/surveys.php?cmd=create')
-      .type('form')
-      .send(body)
-      .set('X-API-Key', 'foobar')
-      .set('Accept', 'application/json')
-      .end(function(err, res){
+    var bodyEncoded = Object.keys(body).map(function(k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(body[k])
+    }).join('&');
+
+    fetch('/ajax/surveys.php?cmd=create', {
+      ...defaultRequest,
+      body: bodyEncoded
+    })
+    .then(response => response.json())
+    .then((res) => (err, res) => {
         // Calling the end function will send the request
       });
-    // postRequest("http://192.168.0.214:9000/test?query=genial", resultJSON);
   };
   return thunk;
 }
