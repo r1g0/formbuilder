@@ -42,20 +42,20 @@ export default function FieldList(props) {
       <div className="list-group">
         <Link to="/builder/json" className="list-group-item">
           <i className="glyphicon glyphicon-fullscreen" />&nbsp;
-          Show as JSON
+          Mostrar JSON
         </Link>
         <button type="button"
-          onClick={() => confirm("Are you sure?") && props.resetForm()}
+          onClick={() => confirm("¿Está seguro?") && props.resetForm()}
           className="list-group-item">
           <i className="glyphicon glyphicon-remove" />&nbsp;
-          Reset form
+          Reiniciar encuesta
         </button>
       </div>
     );
   }
   return (
     <div>
-      <MenuSection heading="Widgets"
+      <MenuSection heading="Preguntas"
         fields={fieldList}
         onClick={addField}
         setDragStatus={props.setDragStatus} />

@@ -50,7 +50,7 @@ export default {
             required: {type: "boolean", title: "Requerido "},
             enum: {
               type: "array",
-              title: "Options",
+              title: "Opciones",
               items: {
                 type: "string"
               }
@@ -63,7 +63,7 @@ export default {
     },
     {
       id: "multiplechoice",
-      icon: "list",
+      icon: "check",
       label: "Opción Múltiple",
       jsonSchema: {
         type: "string",
@@ -80,7 +80,7 @@ export default {
             required: {type: "boolean", title: "Requerido "},
             enum: {
               type: "array",
-              title: "Options",
+              title: "Opciones",
               items: {
                 type: "string"
               }

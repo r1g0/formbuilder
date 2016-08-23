@@ -44,12 +44,12 @@ class FieldPropertiesEditor extends Component {
     return (
       <div className="panel panel-default field-editor">
         <div className="panel-heading">
-          <strong>{schema.index}. Edit {name}</strong>
-          <button type="button" className="close-btn" onClick={onCancel} aria-label="Close">
-            close <i className="glyphicon glyphicon-remove-sign"/>
+          <strong>{schema.index}. Editar</strong>
+          <button type="button" className="close-btn" onClick={onCancel} aria-label="Cerrar">
+            Cerrar <i className="glyphicon glyphicon-remove-sign"/>
           </button>
-          <button type="button" className="close-btn" onClick={onDelete} aria-label="Delete">
-            delete <i className="glyphicon glyphicon-trash"/>
+          <button type="button" className="close-btn" onClick={onDelete} aria-label="Eliminar">
+            Eliminar <i className="glyphicon glyphicon-trash"/>
           </button>
         </div>
         <div className="panel-body">
@@ -57,7 +57,9 @@ class FieldPropertiesEditor extends Component {
             schema={uiSchema.editSchema}
             formData={formData}
             onChange={this.onChange.bind(this)}
-            onSubmit={onUpdate} />
+            onSubmit={onUpdate} >
+            <button type="submit" className="btn btn-info">Agregar</button>
+          </Form>
         </div>
       </div>
     );
@@ -83,10 +85,10 @@ function DraggableFieldContainer(props) {
           </div>
           <div className="col-sm-3 editable-field-actions">
             <button type="button" className="edit-btn" onClick={onEdit}>
-              edit <i className="glyphicon glyphicon-edit"/>
+              Editar <i className="glyphicon glyphicon-edit"/>
             </button>
             <button type="button" className="delete-btn" onClick={onDelete}>
-              delete <i className="glyphicon glyphicon-trash"/>
+              Eliminar <i className="glyphicon glyphicon-trash"/>
             </button>
           </div>
         </div>
@@ -122,7 +124,7 @@ export default class EditableField extends Component {
 
   handleDelete(event) {
     event.preventDefault();
-    if (confirm("Are you sure you want to delete this field?")) {
+    if (confirm("¿Desea borrar esta pregunta?")) {
       this.props.removeField(this.props.name);
     }
   }

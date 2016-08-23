@@ -4,8 +4,9 @@ import React from "react";
 export default function Default() {
   return (
     <div className="jumbotron">
-      <h1>Ready?</h1>
-      <p>Start adding form fields by selecting widgets in the menu.</p>
+      <h1>¿Listo?</h1>
+      <p>Agrega preguntas seleccionandolas del menu.</p>
+      <medium>Tip: Puedes arrastrarlas para agregar o cambiar de orden.</medium>
     </div>
   );
 }
