@@ -139,9 +139,9 @@ export function publishForm(callback) {
       name: schema.title,
       notes: schema.description,
       json: JSON.stringify(resultJSON),
-      place_question_id: null,
-      place_name_template: null,
-      place_min_radius: null,
+      place_question_id: '',
+      place_name_template: '',
+      place_min_radius: '5',
       place_group_id: 1
     }
 

@@ -10,12 +10,12 @@ module.exports = {
   entry: ["./formbuilder/app", "babel-polyfill"],
   output: {
     path: path.join(__dirname, "build"),
-    filename: "bundle.js",
+    filename: "surveyCreator.js",
     publicPath: "/static/"
   },
   plugins: [
     new webpack.IgnorePlugin(/^(buffertools)$/), // unwanted "deeper" dependency
-    new ExtractTextPlugin("styles.css", {allChunks: true}),
+    new ExtractTextPlugin("surveyCreator.css", {allChunks: true}),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production"),

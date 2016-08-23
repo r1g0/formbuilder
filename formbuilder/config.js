@@ -9,7 +9,7 @@ export default {
     {
       id: "text",
       icon: "text-color",
-      label: "Text",
+      label: "Pregunta Simple",
       jsonSchema: {
         type: "string",
         title: "Edit me",
@@ -21,9 +21,10 @@ export default {
         "ui:widget": "noinput",
         editSchema: {
           type: "object",
+          description : "La respuesta puede ser cualquier texto o número.",
           properties: {
             title: {type: "string", title: "Pregunta:"},
-            required: {type: "boolean"},
+            required: {type: "boolean", title: "Requerido "},
           }
         },
       },
@@ -33,16 +34,17 @@ export default {
     {
       id: "singlechoice",
       icon: "list",
-      label: "Single Choice",
+      label: "Opción Simple",
       jsonSchema: {
         type: "string",
         title: "Edit me",
-        enum: ["option 1", "option 2", "option 3"],
+        enum: ["opción 1", "opción 2", "opción 3"],
       },
       uiSchema: {
         "ui:widget": "radio",
         editSchema: {
           type: "object",
+          description : "La respuesta puede ser una de las respuestas disponibles.",
           properties: {
             title: {type: "string", title: "Pregunta:"},
             required: {type: "boolean"},
@@ -62,16 +64,17 @@ export default {
     {
       id: "multiplechoice",
       icon: "list",
-      label: "Multiple Choice",
+      label: "Opción Múltiple",
       jsonSchema: {
         type: "string",
         title: "Edit me",
-        enum: ["option 1", "option 2", "option 3"],
+        enum: ["opción 1", "opción 2", "opción 3"],
       },
       uiSchema: {
         "ui:widget": "multiplechoice",
         editSchema: {
           type: "object",
+          description : "La respuesta puede ser una o varias opciones.",
           properties: {
             title: {type: "string", title: "Pregunta:"},
             required: {type: "boolean"},
@@ -91,9 +94,10 @@ export default {
     {
       id: "qrtext",
       icon: "qrcode",
-      label: "QR Scan",
+      label: "Código QR",
       jsonSchema: {
         type: "string",
+        description : "Permite escanear un código QR para enviar su valor.",
         title: "Edit me",
         description: "",
         default: ""
@@ -114,9 +118,10 @@ export default {
     {
       id: "picture",
       icon: "picture",
-      label: "Picture",
+      label: "Foto",
       jsonSchema: {
         type: "string",
+        description: "Agregar una foto.",
         title: "Edit me",
         description: "",
         default: ""
@@ -149,34 +154,36 @@ export default {
         "ui:readonly": true,
         "ui:widget": "gps",
         editSchema: {
-          "title" : "GPS Location",
-          "description" : "A question for obtaining the mobile's GPS location.",
+          "title" : "Posición GPS",
+          "description" : "Permite marcar la posición en donde se toma la encuesta.",
           "type" : "object",
           "properties" : {
-            "title": {"type": "string"},
+            "title": {"type": "string", title: "Texto que la persona verá:"},
             "validation" : {
-              "title" : "GPS Validation Parameters",
+              "title" : "Validación de la posición",
               "type" : "object",
               "properties" : {
                 "max_error" : {
                   "type" : "number",
-                  "title": "Maximum Accuracy Error",
-                  "description" : "Example: If the maximum error is 30, no location with accuracy above 30 would be valid.",
+                  "title": "Error Máximo de Exactitud",
+                  "description" : "Ejemplo: Si el Error Máximo es de 50, ninguna posición con un error mayor a 50 será válida.",
                   "default" : 50
                 },
                 "areas" : {
-                  "title": "Accepted Areas",
+                  "title": "Areas Aceptadas",
                   "type" : "array",
                   "items" : {
-                    "title" : "GPS Validation",
+                    "title" : "Validación GPS",
                     "type" : "object",
                     "properties" : {
                       "northeast" : {
                         "type" : "string",
+                        "title" : "Noreste",
                         "pattern" : "-?\\d+\\.\\d*,\\s*-?\\d+\\.\\d*"
                       },
                       "southwest" : {
                         "type" : "string",
+                        "title" : "Suroeste",
                         "pattern" : "-?\\d+\\.\\d*,\\s*-?\\d+\\.\\d*"
                       }
                     },
