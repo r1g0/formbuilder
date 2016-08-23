@@ -153,7 +153,14 @@ export function publishForm(callback) {
       ...defaultRequest,
       body: bodyEncoded
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log("response ", response);
+      let json;
+      if (response.ok) {
+        json = response.json();
+        callback(json);
+      }
+    })
     .then((res) => (err, res) => {
         // Calling the end function will send the request
       });
