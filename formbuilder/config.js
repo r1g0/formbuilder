@@ -47,7 +47,7 @@ export default {
           description : "La respuesta puede ser una de las respuestas disponibles.",
           properties: {
             title: {type: "string", title: "Pregunta:"},
-            required: {type: "boolean"},
+            required: {type: "boolean", title: "Requerido "},
             enum: {
               type: "array",
               title: "Options",
@@ -77,7 +77,7 @@ export default {
           description : "La respuesta puede ser una o varias opciones.",
           properties: {
             title: {type: "string", title: "Pregunta:"},
-            required: {type: "boolean"},
+            required: {type: "boolean", title: "Requerido "},
             enum: {
               type: "array",
               title: "Options",
@@ -108,7 +108,7 @@ export default {
           type: "object",
           properties: {
             title: {type: "string", title: "Pregunta:"},
-            required: {type: "boolean"}
+            required: {type: "boolean", title: "Requerido "}
           }
         },
       },
@@ -132,7 +132,7 @@ export default {
           type: "object",
           properties: {
             title: {type: "string", title: "Pregunta:"},
-            required: {type: "boolean"}
+            required: {type: "boolean", title: "Requerido "}
           }
         },
       },
@@ -155,10 +155,10 @@ export default {
         "ui:widget": "gps",
         editSchema: {
           "title" : "Posición GPS",
-          "description" : "Permite marcar la posición en donde se toma la encuesta.",
+          "description" : "Una pregunta que permite registrar la posición en donde se toma la encuesta.",
           "type" : "object",
           "properties" : {
-            "title": {"type": "string", title: "Texto que la persona verá:"},
+            "title": {"type": "string", title: "Pregunta:"},
             "validation" : {
               "title" : "Validación de la posición",
               "type" : "object",
@@ -194,7 +194,7 @@ export default {
               },
               "required": ["max_error"]
             },
-            required: {type: "boolean"}
+            required: {type: "boolean", title: "Requerido "}
           },
           "required": ["title", "validation"]
         },
