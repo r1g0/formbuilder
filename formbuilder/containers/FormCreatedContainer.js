@@ -1,17 +1,16 @@
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import FormCreated from "../components/FormCreated";
+import { resetForm } from "../actions/fieldlist";
 
 
-function mapStateToProps(state) {
-  return {
-    schema: state.form.schema,
-    uiSchema: state.form.uiSchema,
-    formData: state.form.formData,
-    publicationStatus: state.publicationStatus
-  };
+function mapDispatchToProps(dispatch) {
+  const actionCreators = {resetForm};
+  return bindActionCreators(actionCreators, dispatch);
 }
 
 export default connect(
-  mapStateToProps,
+  (s) => s,
+  mapDispatchToProps,
 )(FormCreated);

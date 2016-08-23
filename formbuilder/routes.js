@@ -29,7 +29,7 @@ const LinkToBuilder = (props) => {
 const BackAndCheck = () => {
   return (
     <div>
-      <LinkToBuilder text="Continue editing"/>
+      <LinkToBuilder text="Continuar editando."/>
       <Check />
     </div>
   );
@@ -44,9 +44,9 @@ export default (
         components={{...common, content: FormContainer}} />
       <Route path="builder/json"
         components={{...common, sidebarComponent: LinkToBuilder, content: JsonViewContainer}} />
-      {/*<Route path="builder/published/:adminToken"
+      <Route path="builder/published"
         components={{...common, sidebarComponent: BackAndCheck, content: FormCreatedContainer}} />
-      <Route path="*" components={{
+      {/*<Route path="*" components={{
         sidebarComponent: FieldListContainer,
         content: _ => <h1>Page not found.</h1>
       }}/>*/}

@@ -11,9 +11,9 @@ export default function Form(props) {
 
   const onClick = _ => {
     console.log("on save form", props);
-    props.publishForm(({collection, adminToken}) => {
-      console.log("publishForm", collection);
-      props.history.pushState(null, `/builder/published/${adminToken}`);
+    props.publishForm((json) => {
+      console.log("publishForm", json);
+      props.history.pushState(null, `/builder/published/`);
     });
   };
 
