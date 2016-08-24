@@ -10,7 +10,7 @@ export default function FormCreated(props) {
       <h3>Encuesta creada con éxito.</h3>
       <p>Ya esta disponible para utilizarla en la aplicación Android.</p>
       <Link to="/builder/" >
-         <a onClick={() => confirm("¿Está seguro?") && props.resetForm()}>
+         <a onClick={() => props.resetForm()}>
           NUEVA ENCUESTA
         </a>
       </Link>

@@ -127,3 +127,31 @@ textarea.json-viewer {
   margin-right: auto;
   margin-left: auto;
 }
+
+
+.array-item-remove .btn-danger,
+.array-item-add .btn-info{
+  visibility: hidden;
+}
+
+.array-item-remove .btn-danger:after{
+    content: "Eliminar";
+    background: red;
+    visibility: visible;
+    padding: 10px;
+    margin-left: -70px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.array-item-add .btn-info:after{
+    content: "nueva opcion";
+    background: #892caf;
+    visibility: visible;
+    padding: 10px;
+    margin-left: -84px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.glyphicon{
+  font-family: 'Glyphicons Halflings' !important
+}
